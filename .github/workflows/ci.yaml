@@ -1,0 +1,23 @@
+name: 'Run windup integration tests'
+
+on:
+  workflow_dispatch:
+  push:
+  pull_request:
+
+jobs:
+  run-windup-test:
+    name: Run windup tests
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+    steps:
+    - uses: actions/checkout@v3
+    - name: build base Dockerfile
+      run: docker build -f Dockerfile -t quay.io/konveyor/jdtls-server-base:testing .
+    - name: build testing Dockerfile
+      run: docker build -f test/Dockerfile -t testing .
+    - name: Run openshift tests
+      run: docker run testing test /windup-rulesets/rules/rules-reviewed/openshift
+    - name: Run azure tests
+      run: docker run testing test /windup-rulesets/rules/rules-reviewed/azure
