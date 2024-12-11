@@ -50,6 +50,10 @@ public class AnnotationQuery {
         // If the annotation query is happening on an annotation, the annotation field in the annotation query can be null
         if (isOnAnnotation() && getType() == null) {
             return true;
+        // Classes in the "java.lang" package are never imported, so there is a chance these annotations don't come
+        // as FQNs from the LS. Therefore lets check if the annotation is in "java.lang"
+        } else if (getType().startsWith("java.lang.") && !annotation.contains(".")) {
+            return Pattern.matches(getType().replace("java.lang.", ""), annotation);
         } else {
             return Pattern.matches(getType(), annotation);
         }

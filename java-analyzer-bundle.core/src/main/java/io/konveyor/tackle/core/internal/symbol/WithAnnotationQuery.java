@@ -191,7 +191,7 @@ public interface WithAnnotationQuery {
                     .filter(i -> i.getElementName().endsWith(name))
                     .findFirst()
                     .map(IImportDeclaration::getElementName)
-                    .orElse("");
+                    .orElse(name);
         }
     }
 
