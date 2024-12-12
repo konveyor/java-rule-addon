@@ -91,7 +91,7 @@ def main(args):
 	jar_path = find_equinox_launcher(jdtls_base_path)
 
 	system = platform.system()
-	exec_args = ["-Declipse.application=org.eclipse.jdt.ls.core.id1",
+	exec_args = [java_executable, "-Declipse.application=org.eclipse.jdt.ls.core.id1",
 			"-Dosgi.bundles.defaultStartLevel=4",
 			"-Declipse.product=org.eclipse.jdt.ls.core.product",
 			"-Dosgi.checkConfiguration=true",
@@ -111,4 +111,4 @@ def main(args):
 	if os.name == 'posix':
 		os.execvp(java_executable, exec_args)
 	else:
-		subprocess.run([java_executable] + exec_args)
+		subprocess.run(exec_args)
